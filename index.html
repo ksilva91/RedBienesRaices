@@ -94,6 +94,7 @@
                
 	</div>
 	<div data-role="footer">
+    	<a href="#cotizarBienes" data-role="button" data-icon="home">Inicio</a>
 		<a href="#inicio" data-role="button" data-icon="delete" style="float:right">Cerrar Sesión</a>
 	</div>
 </div>
@@ -106,7 +107,7 @@
             			
 	</div>
 	<div data-role="footer">
-		<a href="#home" data-role="button" data-icon="home">Inicio</a>
+		<a href="#cotizarBienes" data-role="button" data-icon="home">Inicio</a>
         <a href="#inicio" data-role="button" data-icon="delete" style="float:right">Cerrar Sesión</a>
 	</div>
 </div>
@@ -143,6 +144,7 @@
         </div> 		
 	</div>
 	<div data-role="footer">
+    	<a href="#cotizarBienes" data-role="button" data-icon="home">Inicio</a>
 		<a href="#inicio" data-role="button" data-icon="delete" style="float:right">Cerrar Sesión</a>
 	</div>
 </div>
@@ -166,6 +168,7 @@
         		
 	</div>
 	<div data-role="footer">
+    	<a href="#cotizarBienes" data-role="button" data-icon="home">Inicio</a>
 		<a href="#inicio" data-role="button" data-icon="delete" style="float:right">Cerrar Sesión</a>
 	</div>
 </div>
@@ -197,18 +200,24 @@ $("#btLogin").click(function() {
 			datosUsuario = $("#nombredeusuario").val()
 			var datosPassword = $("#clave").val()
 			
-			cargaSelect()	
-			var param = new SOAPClientParameters();
-			param.add("user", datosUsuario);
-			param.add("contrasenia", datosPassword);
-			
-					
-			if(UrlExists(url)){
-				SOAPClient.invoke(url, "login", param, true, login_callBack);
-						
-			}else{
-				alert("Existe un error en el servidor")
+			if(datosUsuario == "" || datosPassword == "")
+			{
+				alert("Existen campos sin llenar, complete y vuelva a intentar")
 			}
+			else
+			{
+				cargaSelect()	
+				var param = new SOAPClientParameters();
+				param.add("user", datosUsuario);
+				param.add("contrasenia", datosPassword);				
+						
+				if(UrlExists(url)){
+					SOAPClient.invoke(url, "login", param, true, login_callBack);
+							
+				}else{
+					alert("Existe un error en el servidor")
+				}
+			}		
 			return false
 	}catch(exception){
 		alert("Conexión al servidor rechazada")
@@ -255,6 +264,7 @@ $('#cot_bienes_busqueda').bind('pageshow', function() {
 	   $( "table#myTable tbody" ).closest( "table#myTable" ).table( "refresh" ).trigger( "create" );
 	   return false
  });
+ 
 
 function cargaSelect(){		
 		
