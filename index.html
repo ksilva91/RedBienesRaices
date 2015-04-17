@@ -1,0 +1,579 @@
+<!DOCTYPE html> 
+<html>
+<head>
+<meta charset="utf-8">
+<title>Red Bienes Raíces</title>
+
+<link href="jquery-mobile/jquery.mobile-1.0.min.css" rel="stylesheet" type="text/css"/>
+<script src="jquery-mobile/jquery-1.6.4.min.js" type="text/javascript"></script>
+
+<link rel="stylesheet" href="jquery-mobile/jquery.mobile-1.4.2.min.css">
+<script src="jquery-mobile/jquery-1.10.2.min.js"></script>
+<script src="jquery-mobile/jquery.mobile-1.4.2.min.js"></script>
+
+<script type="text/javascript" src="soapclient.js"></script>
+
+</head> 
+<body> 
+
+<div data-role="page" id="inicio"> 
+	<div data-role="header">
+		<h1>Red Bienes Raíces</h1>
+	</div>
+    <img src="img/LogoSinFondo.png"  width="100%" height="auto" style="padding-left:0%"/>
+    
+	<div data-role="content">	
+		<form id="formulario" >      
+      		<label> Usuario </label>
+      		<input type="text" id="nombredeusuario" name="nombredeusuario">
+      		<label> Password </label>
+     		<input type="password" id="clave" name="clave" >
+            <button id="btLogin">Login</button> 
+   		</form>		
+	</div>	 
+</div>
+
+
+<div data-role="page" id="cotizarBienes">
+	<div data-role="header">
+		<h1>Cotizar Bienes</h1>
+	</div>    
+	<div data-role="content">	
+    	<form id="cot_bienes">
+            <fieldset class="ui-field-contain">
+                <label for="et">Etapa</label>
+                <select name="etapa" id="etapa">
+                </select>
+            </fieldset>
+            <fieldset data-role="controlgroup" required>
+                <legend>Categoría:</legend>
+                <label for="terreno">Terreno</label>
+                <input type="radio" name="categoria" id="terreno" value="terreno">
+                <label for="departamento">Departamento</label>
+                <input type="radio" name="categoria" id="departamento" value="departamento">	
+            </fieldset>
+            <label for="manzana">Manzana: (Opcional)</label>
+   			<input type="text" name="manzana" id="manzana">
+              
+        </form>    
+        <button id="btBuscar">Buscar</button>    
+            			
+	</div>
+	<div data-role="footer">
+    	<a href="#inicio" data-role="button" data-icon="delete" style="float:right">Cerrar Sesión</a>
+		
+	</div>
+</div>
+
+
+<div data-role="page" id="cot_bienes_busqueda">
+	<div data-role="header">
+		<h1>Cotizar Bienes</h1>
+	</div>    
+	<div data-role="content">
+    	
+        <div style="height:100%; width:100%; overflow:auto;">
+        	
+            <table data-role="table" data-mode="columntoggle" class="ui-responsive" id="myTable" data-column-btn-text="Columnas..">
+                <thead>
+                    <tr style="height:45px">          
+                      <th valign="middle" data-priority="1" style="text-align:center">Mz</th>
+                      <th valign="middle" data-priority="1" style="text-align:center">Lote</th>
+                      <th valign="middle" data-priority="1" style="text-align:center">A. Terreno</th>
+                      <th valign="middle" data-priority="3" style="text-align:center">Categoría</th>
+                      <th valign="middle" data-priority="3" style="text-align:center">Ubicacion</th>
+                      <th valign="middle" data-priority="1" style="text-align:center">Plazo Entrega</th>        
+                    </tr>
+              </thead>
+              <tbody id="tablaLotesVacios">
+           
+    
+              </tbody>
+    		</table>
+		</div>	
+               
+	</div>
+	<div data-role="footer">
+		<a href="#inicio" data-role="button" data-icon="delete" style="float:right">Cerrar Sesión</a>
+	</div>
+</div>
+
+<div data-role="page" id="cot_bienes_escojer_modCasas">
+	<div data-role="header">
+		<h1>Cotizar Bienes</h1>
+	</div>    
+	<div data-role="content">	
+            			
+	</div>
+	<div data-role="footer">
+		<a href="#home" data-role="button" data-icon="home">Inicio</a>
+        <a href="#inicio" data-role="button" data-icon="delete" style="float:right">Cerrar Sesión</a>
+	</div>
+</div>
+
+<div data-role="page" id="PageModeloCasa">
+	<div data-role="header">
+		<h1>Modelos de casa</h1>
+	</div>
+	<div data-role="content">	
+    
+ 		<table class="ui-responsive" id="tableLoteEscogido">
+            <thead>             
+              </thead>              
+              <tbody id="bodyTableLoteEscogido">
+           
+    
+              </tbody>
+    	</table>   
+    
+    	<div style=" overflow:auto;">
+		<table class="ui-responsive" id="tableModeloCasa">
+            <thead> 
+            	<th nowrap data-priority="1" style="text-align:center;">Modelo</th>
+                <th data-priority="1" style="text-align:center">A.Const</th>
+                <th data-priority="1" style="text-align:right">Precio(USD)</th>
+                <th data-priority="1" style="text-align:center">Fachada</th>
+                <th data-priority="1" style="text-align:center">Acabados</th>                            
+            </thead>              
+            <tbody id="bodyTableModeloCasa">
+           
+    
+            </tbody>
+    	</table>
+        </div> 		
+	</div>
+	<div data-role="footer">
+		<a href="#inicio" data-role="button" data-icon="delete" style="float:right">Cerrar Sesión</a>
+	</div>
+</div>
+
+
+<div data-role="page" id="PageCotizacionFinal">
+	<div data-role="header">
+		<h1>Cotización</h1>
+	</div>
+	<div data-role="content">	
+    	<table class="ui-responsive" id="tableCotizacionFinal">
+            <thead>             
+              </thead>              
+              <tbody id="bodyTableCotizacionFinal">
+           
+    
+              </tbody>
+    	</table>       
+        
+        
+        		
+	</div>
+	<div data-role="footer">
+		<a href="#inicio" data-role="button" data-icon="delete" style="float:right">Cerrar Sesión</a>
+	</div>
+</div>
+
+
+<script>
+
+
+var url = "http://centridagsa.villahermosa.ec:9093/wsPuntoVentaMovil/services/Implement"
+
+var url2 = "http://centridagsa.villahermosa.ec:9093/wsVillaHermosa/services/Implement"
+
+var Mz,Lote,A_terreno,Categ,Ubic,Plazo_entrega,id_lote,n_entrada,Etapa,etp, precio_venta, id_usuario,cini, cinimin,cent,centmin,datosUsuario;
+
+$('#inicio').bind('pageshow', function() {
+       $('#nombredeusuario').val('')
+	   $('#clave').val('')	   
+	   return false
+ });
+ 
+ $('#cotizarBienes').bind('pageshow', function() {
+       $('#manzana').val('')	   
+	   return false
+ });
+ 
+
+$("#btLogin").click(function() { 	
+	try{
+			datosUsuario = $("#nombredeusuario").val()
+			var datosPassword = $("#clave").val()
+			
+			cargaSelect()	
+			var param = new SOAPClientParameters();
+			param.add("user", datosUsuario);
+			param.add("contrasenia", datosPassword);
+			
+					
+			if(UrlExists(url)){
+				SOAPClient.invoke(url, "login", param, true, login_callBack);
+						
+			}else{
+				alert("Existe un error en el servidor")
+			}
+			return false
+	}catch(exception){
+		alert("Conexión al servidor rechazada")
+		return false
+	}
+})
+
+
+
+
+function UrlExists(url) {
+  var http = new XMLHttpRequest();
+  http.open('HEAD', url, false);
+  http.send();
+  
+  if (http.status == 403){
+	  return false
+  }else if (http.status == 200){
+	  return true
+  }else{ 
+	  return false
+  }
+  
+}
+
+function login_callBack(r)
+{	
+	if(r==null){
+		alert("Error en los datos introducidos");
+	}else{
+		if(r[0]=="ERROR"){
+			alert("Error de Autenticación");
+		}else if(r[0]=="OK"){
+			id_usuario = r[1]
+     		$.mobile.changePage("#cotizarBienes")				
+		}
+	}
+	
+	return false
+}
+
+$('#cot_bienes_busqueda').bind('pageshow', function() {
+       cargaSelect();
+	   $( "table#myTable tbody" ).closest( "table#myTable" ).table( "refresh" ).trigger( "create" );
+	   return false
+ });
+
+function cargaSelect(){		
+		
+	var param = new SOAPClientParameters();
+
+    SOAPClient.invoke(url, "getEtapas", param, true, cargaSelect_callBack);
+	
+	return false
+}
+	
+function cargaSelect_callBack(r){
+	
+	$('.netapas').remove()
+	
+	if(r==null || r[0]=="ERROR" ){
+		alert("Error carga de etapas");
+	}else{
+		for(var i=0; r[i]!=null;i++){
+			if(i==0 || i==2){
+				$('#etapa').append('<option class="netapas"  valueId='+r[i+1]+' value='+r[i]+'>'+r[i]+'</option>');
+				$('#etapa1').append('<option class="netapas"  valueId='+r[i+1]+' value='+r[i]+'>'+r[i]+'</option>');
+			}
+		}		
+	}
+         //Actualiza la lista desplegable
+     $('#etapa').selectmenu("refresh", true);
+	 $('#etapa1').selectmenu("refresh", true);
+	 
+	 return false
+}
+
+$("#btBuscar").click(function() { 
+		
+	var a = 0;
+	 $("input[name*=categoria]:checked").each(function () {
+		a++
+   });
+   
+   var valor = $("input[name*=categoria]:checked").val();
+   
+   
+   if(a!=0){
+	   
+	   etp = $("#etapa option:selected").text();
+	   Etapa = $("#etapa option:selected").attr("valueId");
+		
+	
+	   if(valor=="terreno"){
+		   var categoria = "1000102";
+	   }else{
+		   var categoria = "1000110";
+	   }	   
+	   var manzana = $("#manzana").val();
+	   
+	   var param = new SOAPClientParameters();
+	   
+	   param.add("etapa", Etapa);
+	   param.add("categoria", categoria);
+	   if(manzana==null || manzana==""){
+		   param.add("manzana", "");
+	   }else{
+		   param.add("manzana", manzana);
+	   }
+	   SOAPClient.invoke(url, "getLotesDisponibles", param, true, getLotes_callBack);
+	   
+   }else{
+	   alert("Rellene al menos una opción de categoría")
+   }
+   			   
+   return false
+});
+
+
+function getLotes_callBack(r){
+	
+	$('.filas').remove();
+	
+	if(r==null || r[0]=="ERROR"){
+		alert("No existen lotes");
+	}else{
+		var mz,lote,area_terreno,categoria,ubicacion,plazo_entrega,id,cuota_ini,cuota_ini_min,cuota_ent,cuota_ent_min;
+		var j = 1;		
+		for(var i=1; r[i]!=null;i=i+2){
+			
+			if(j==1){
+				mz = r[i];
+				j++;
+			}else if(j==2){
+				lote = r[i];
+				j++;
+			}else if(j==3){
+				area_terreno = r[i];
+				j++;
+			}else if(j==4){
+				categoria = r[i];
+				j++;
+			}else if(j==5){
+				ubicacion = r[i];
+				j++;
+			}else if(j==6){
+				plazo_entrega = r[i];
+				j++;								
+			}else if(j==7){
+				id = r[i];
+				j++;
+			}else if(j==8){
+				cuota_ini = r[i]
+				j++
+			}else if(j==9){
+				cuota_ini_min = r[i]
+				j++
+			}else if(j==10){
+				cuota_ent = r[i]
+				j++
+			}else if(j==11){
+				cuota_ent_min = r[i]
+				j=1		
+				$('#tablaLotesVacios').append('<tr style="height:40px" class="filas" onclick="click_en_fila(this)"> <td valign="middle" value="'+mz+'">'+mz+'</td> <td valign="middle" value="'+lote+'" style="text-align:right">'+lote+'</td> <td  valign="middle" value="'+area_terreno+'" style="text-align:right">'+area_terreno+'</td> <td valign="middle" value="'+categoria+'">'+categoria+'</td> <td valign="middle" value="'+ubicacion+'">'+ubicacion+'</td> <td valign="middle" value="'+plazo_entrega+'" style="text-align:right" value2="'+id+'" cini="'+cuota_ini+'" cinimin="'+cuota_ini_min+'" cent="'+cuota_ent+'" centmin="'+cuota_ent_min+'">'+plazo_entrega+'</td> </tr>');	
+				
+			}	
+						
+		}		
+	} 
+     
+	
+	 $.mobile.changePage("#cot_bienes_busqueda")
+	  //$('table#myTable tbody').table('refresh').trigger('create');
+	 
+	 return false
+	
+	
+}
+
+
+
+function click_en_fila(fila)
+{
+	
+	$(fila).css("background-color", "#FC3");
+	var campos = fila.getElementsByTagName("td");
+		
+	Mz = $(campos[0]).attr("value");
+	Lote = $(campos[1]).attr("value");
+	A_terreno = $(campos[2]).attr("value");
+	Categ = $(campos[3]).attr("value");
+	Ubic = $(campos[4]).attr("value");
+	Plazo_entrega = $(campos[5]).attr("value");
+	id_lote = $(campos[5]).attr("value2");
+	cini = $(campos[5]).attr("cini");
+	cinimin = $(campos[5]).attr("cinimin"); 
+	cent = $(campos[5]).attr("cent");
+	centmin = $(campos[5]).attr("centmin");
+	
+	
+	$('.filasLoteEscogido').remove();
+	
+	$('#bodyTableLoteEscogido').append('<tr class="filasLoteEscogido"> <td>Mz: '+Mz+'</td>  <td>Lote: '+Lote+'</td></tr> <tr class="filasLoteEscogido"><td>A Terreno: '+A_terreno+'</td>  <td>Categoría: '+Categ+'</td></tr> <tr class="filasLoteEscogido"><td>Ubicación: '+Ubic+'</td>  <td>Plazo Entrega: '+Plazo_entrega+'</td> </tr>');
+	
+	var param = new SOAPClientParameters();    
+	param.add("product_id", id_lote);
+	  
+	SOAPClient.invoke(url, "getModelosCasas", param, true, ModelosCasas_callBack); 
+		
+}
+
+
+function ModelosCasas_callBack(r)
+{
+
+	$('.filasModelos').remove();
+	
+	if(r==null || r[0]=="ERROR"){
+		alert("No existen lotes asociados");
+	}else{
+		var modelo,a_const,fachada,acabados,precio;
+		var j = 1;		
+		for(var i=1; r[i]!=null;i=i+2){			
+			if(j==1){
+				modelo = r[i];
+				j++;
+			}else if(j==2){
+				a_const = r[i];
+				j++;
+			}else if(j==3){
+				fachada = r[i];
+				j++;
+			}else if(j==4){
+				acabados = r[i];
+				j++;
+			}else if(j==5){
+				precio = r[i];
+				j=1;
+				$('#bodyTableModeloCasa').append('<tr class="filasModelos" onclick="click_en_modeloCasa(this)"> <td nowrap value="'+modelo+'">'+modelo+'</td> <td value="'+a_const+'" style="text-align:right">'+a_const+'</td> <td value="'+precio+'" style="text-align:right">'+precio+'</td><td value="'+fachada+'">'+fachada+'</td> <td value="'+acabados+'">'+acabados+'</td>  </tr>');
+			}
+		}
+		$.mobile.changePage("#PageModeloCasa") 
+	}
+}
+
+
+function click_en_modeloCasa(fila)
+{
+	
+	$(fila).css("background-color", "#FC3");
+	var campos = fila.getElementsByTagName("td")
+		
+	var modelo = $(campos[0]).attr("value");
+	var aconst = $(campos[1]).attr("value");
+	var precio = $(campos[2]).attr("value");
+	var fachada = $(campos[3]).attr("value");
+	var acabados = $(campos[4]).attr("value");
+	
+	//cuota_ini = parseFloat(cuota_ini).toFixed(2)
+	//cuota_ent = parseFloat(cuota_ent).toFixed(2)
+	
+	var entrada = precio.replace(",",'')*(cent/100); 
+	entrada = parseFloat(Math.round(entrada * 100) / 100).toFixed(2);
+	var cuotaInicial = precio.replace(",",'')*(cini/100);
+	cuotaInicial = parseFloat(Math.round(cuotaInicial * 100) / 100).toFixed(2);
+	var finan = precio.replace(",",'')-entrada;
+	finan = parseFloat(Math.round(finan * 100) / 100).toFixed(2);	
+	
+	n_entrada = Plazo_entrega - 2;
+	
+	var cuotasEntrada = (entrada-cuotaInicial)/n_entrada;
+	cuotasEntrada = parseFloat(Math.round(cuotasEntrada * 100) / 100).toFixed(2);	
+	
+	var g2 = 0.1/12;
+	var plazo120 = finan*((g2*Math.pow((1+g2),120))/((Math.pow((1+g2),120))-1));
+	var plazo180 = finan*((g2*Math.pow((1+g2),180))/((Math.pow((1+g2),180))-1));
+	var plazo240 = finan*((g2*Math.pow((1+g2),240))/((Math.pow((1+g2),240))-1));
+	
+	plazo120 = parseFloat(Math.round(plazo120 * 100) / 100).toFixed(2);
+	plazo180 = parseFloat(Math.round(plazo180 * 100) / 100).toFixed(2);
+	plazo240 = parseFloat(Math.round(plazo240 * 100) / 100).toFixed(2);
+	$('.filasCotFinal').remove();
+
+	$('#bodyTableCotizacionFinal').append('<tr class="filasCotFinal"><td>Lote: </td><td>'+etp+' - '+Mz+' - '+Lote+'</td></tr><tr class="filasCotFinal"> <td>Modelo:</td> <td>'+modelo+' - '+aconst+' - '+fachada+' - '+acabados+'</td></tr><tr class="filasCotFinal"><td>Precio(USD):</td><td style="text-align:right"> '+precio+'</td></tr><tr class="filasCotFinal"><td>Entrada(USD)'+parseFloat(cent).toFixed(2)+'%:</td>	<td style="text-align:right">'+formatearNum(entrada)+'</td></tr><tr class="filasCotFinal"><td>Cuota Inicial(USD)'+parseFloat(cini).toFixed(2)+'%:</td><td style="text-align:right">'+formatearNum(cuotaInicial)+'</td>	</tr><tr class="filasCotFinal"><td>Pagos Entrada:</td><td style="text-align:right">'+n_entrada+'</td></tr><tr    class="filasCotFinal"><td>Valor Cuota(USD):</td><td style="text-align:right">'+formatearNum(cuotasEntrada)+'</td></tr><tr class="filasCotFinal"><td>Financiamiento(USD):</td><td style="text-align:right">'+formatearNum(finan)+'</td></tr><tr class="filasCotFinal"><td>Tasa Banco:</td><td style="text-align:right">9%</td> </tr><tr class="filasCotFinal"><td>Plazo 120 meses (USD):</td><td style="text-align:right">'+formatearNum(plazo120)+'</td></tr><tr class="filasCotFinal"><td>Plazo 180 meses (USD):</td><td style="text-align:right">'+formatearNum(plazo180)+'</td></tr><tr class="filasCotFinal"><td>Plazo 240 meses (USD):</td><td style="text-align:right">'+formatearNum(plazo240)+'</td></tr>');
+	 
+	
+	  
+	  $.mobile.changePage("#PageCotizacionFinal")
+	
+}
+
+document.addEventListener("backbutton", function(e){ 
+    if($.mobile.activePage.is('#pagina-no-salir')){ 
+        e.preventDefault(); 
+    }
+	if($.mobile.activePage.is('#inicio')){
+        navigator.app.exitApp();
+    } 
+}, false);
+
+
+    	   
+	
+function formatearNum(num){
+	  var separador = ","; // separador para los miles
+	  var sepDecimal = '.'; // separador para los decimales
+	  num +='';
+	  var splitStr = num.split('.');
+	  var splitLeft = splitStr[0];
+	  var splitRight = splitStr.length > 1 ? sepDecimal + splitStr[1] : '';
+	  var regx = /(\d+)(\d{3})/;
+	  while (regx.test(splitLeft)) {
+	  splitLeft = splitLeft.replace(regx, '$1' + separador + '$2');
+	  }
+	  return splitLeft  +splitRight;
+ }
+
+
+
+
+</script>
+
+<style>
+
+
+table {
+    color: black;
+    background: #fff;
+    border: 1px solid #b4b4b4;
+    font: bold 14px helvetica;
+    padding: 0;
+    margin-top:10px;
+    width: 100%;
+    -webkit-border-radius: 8px;
+}
+
+table tr th {
+	color: #07A590;
+	border-bottom: 1px solid #b4b4b4;
+    border-right: 1px solid #b4b4b4;
+    padding: 10px 10px 10px 10px;
+    background-image: -webkit-linear-gradient(top, #fdfdfd, #eee);	
+}
+     
+table tr td {
+    color: #666;
+    border-bottom: 1px solid #b4b4b4;
+    border-right: 1px solid #b4b4b4;
+    padding: 10px 10px 10px 10px;
+    background-image: -webkit-linear-gradient(top, #fdfdfd, #eee);
+}
+         
+table tr td:last-child {
+    border-right: none;
+}
+
+table tr:last-child td {
+    border-bottom: none;
+}
+
+.estcom {
+	color:#F00;	
+}
+
+</style>
+
+</body>
+</html>
