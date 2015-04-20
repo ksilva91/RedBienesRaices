@@ -346,47 +346,63 @@ function getLotes_callBack(r){
 		alert("No existen lotes");
 	}else{
 		var mz,lote,area_terreno,categoria,ubicacion,plazo_entrega,id,cuota_ini,cuota_ini_min,cuota_ent,cuota_ent_min;
+		
 		var j = 1;		
-		for(var i=1; r[i]!=null;i=i+2){
-			
-			if(j==1){
-				mz = r[i];
-				j++;
-			}else if(j==2){
-				lote = r[i];
-				j++;
-			}else if(j==3){
-				area_terreno = r[i];
-				j++;
-			}else if(j==4){
-				categoria = r[i];
-				j++;
-			}else if(j==5){
-				ubicacion = r[i];
-				j++;
-			}else if(j==6){
-				plazo_entrega = r[i];
-				j++;								
-			}else if(j==7){
-				id = r[i];
-				j++;
-			}else if(j==8){
-				cuota_ini = r[i]
-				j++
-			}else if(j==9){
-				cuota_ini_min = r[i]
-				j++
-			}else if(j==10){
-				cuota_ent = r[i]
-				j++
-			}else if(j==11){
-				cuota_ent_min = r[i]
-				j=1		
-				$('#tablaLotesVacios').append('<tr style="height:40px" class="filas" onclick="click_en_fila(this)"> <td valign="middle" value="'+mz+'">'+mz+'</td> <td valign="middle" value="'+lote+'" style="text-align:right">'+lote+'</td> <td  valign="middle" value="'+area_terreno+'" style="text-align:right">'+area_terreno+'</td> <td valign="middle" value="'+categoria+'">'+categoria+'</td> <td valign="middle" value="'+ubicacion+'">'+ubicacion+'</td> <td valign="middle" value="'+plazo_entrega+'" style="text-align:right" value2="'+id+'" cini="'+cuota_ini+'" cinimin="'+cuota_ini_min+'" cent="'+cuota_ent+'" centmin="'+cuota_ent_min+'">'+plazo_entrega+'</td> </tr>');	
-				
+		if(r[1]!=null)
+		{
+			for(var i=1; r[i+1]!=null;i=i+2){			
+				if(j==1){
+					mz = r[i];
+					j++;
+				}else if(j==2){
+					lote = r[i];
+					j++;
+				}else if(j==3){
+					area_terreno = r[i];
+					j++;
+				}else if(j==4){
+					categoria = r[i];
+					j++;
+				}else if(j==5){
+					ubicacion = r[i];
+					j++;
+				}else if(j==6){
+					plazo_entrega = r[i];
+					j++;							
+				}else if(j==7){					
+					id = r[i];
+					j++;
+					/*if(r[i+2]==null){
+						cuota_ini = ""
+						cuota_ini_min = ""
+						cuota_ent = ""
+						cuota_ent_min = ""
+						j = 11;  
+					}*/
+				}else if(j==8){
+					if(r[i]==null){	cuota_ini = "0"	}
+					else {	cuota_ini = r[i]	}					
+					j++
+				}else if(j==9){
+					if(r[i]==null){	cuota_ini_min = "0"	}
+					else {	cuota_ini_min = r[i]	}	
+					cuota_ini_min = r[i]
+					j++
+				}else if(j==10){
+					if(r[i]==null){	cuota_ent = "0"	}
+					else {	cuota_ent = r[i]	}
+					j++
+				}else if(j==11){
+					if(r[i]==null){	cuota_ent_min = "0"	}
+					else {	cuota_ent_min = r[i]	}
+					j=1		
+					//alert("11")
+					$('#tablaLotesVacios').append('<tr style="height:40px" class="filas" onclick="click_en_fila(this)"> <td valign="middle" value="'+mz+'">'+mz+'</td> <td valign="middle" value="'+lote+'" style="text-align:right">'+lote+'</td> <td  valign="middle" value="'+area_terreno+'" style="text-align:right">'+area_terreno+'</td> <td valign="middle" value="'+categoria+'">'+categoria+'</td> <td valign="middle" value="'+ubicacion+'">'+ubicacion+'</td> <td valign="middle" value="'+plazo_entrega+'" style="text-align:right" value2="'+id+'" cini="'+cuota_ini+'" cinimin="'+cuota_ini_min+'" cent="'+cuota_ent+'" centmin="'+cuota_ent_min+'">'+plazo_entrega+'</td> </tr>');	
+					
+				}	
+							
 			}	
-						
-		}		
+		}
 	} 
      
 	
